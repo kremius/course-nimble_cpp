@@ -8,8 +8,7 @@ int naive_median(std::vector<int>& d) {
 }
 
 int optimized_median(std::vector<int>& d) {
-    // TASK: Improve
-    std::sort(d.begin(), d.end());
+    std::nth_element(d.begin(), d.begin() + d.size() / 2, d.end());
     return *(d.begin() + static_cast<std::size_t>(d.size() / 2));
 }
 
