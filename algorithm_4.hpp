@@ -10,11 +10,7 @@ int naive_100_to_1000(std::vector<int>& d) {
 }
 
 int optimized_100_to_1000(std::vector<int>& d) {
-    // TASK: Improve
-    std::sort(d.begin(), d.end());
-    auto it1 = std::lower_bound(d.begin(), d.end(), 100);
-    auto it2 = std::lower_bound(d.begin(), d.end(), 1000);
-    return it2 - it1;
+    return std::count_if(d.begin(), d.end(), [](int v) { return (v > 100) && (v <= 1000); });
 }
 
 
