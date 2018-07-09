@@ -8,9 +8,7 @@ int naive_bankrupted(std::vector<int>& d) {
 }
 
 int optimized_bankrupted(std::vector<int>& d) {
-    // TASK: Improve
-    std::sort(d.begin(), d.end());
-    return std::find_if(d.begin(), d.end(), [](int val) { return val > 0; }) - d.begin();
+    return std::count_if(d.begin(), d.end(), [](int val) { return val <= 0; });
 }
 
 
