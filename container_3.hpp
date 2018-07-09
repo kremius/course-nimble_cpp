@@ -21,8 +21,9 @@ static void naive_insertion(benchmark::State& state, int) {
 static void optim_insertion(benchmark::State& state, int) {
     const std::size_t elements_count = state.range(0);
     for (auto _ : state) {
-        // TASK: Improve
         std::vector<int> d;
+
+        d.reserve(elements_count);
 
         for (unsigned i = 0; i < elements_count; ++i) {
             d.push_back(i);
