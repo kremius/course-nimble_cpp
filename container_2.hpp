@@ -32,7 +32,7 @@ static void optim_containers_erase(benchmark::State& state, int) {
 
         while (!d.empty()) {
             // Optimize
-            d.erase(d.begin());
+            d.erase(d.end() - 1);
         }
         benchmark::DoNotOptimize(d);
     }
