@@ -57,7 +57,7 @@ public:
         : data_(p.data_ ? new int{*p.data_} : nullptr)
     {}
 
-    my_unique_ptr_opt(my_unique_ptr_opt&& p)
+    my_unique_ptr_opt(my_unique_ptr_opt&& p) noexcept
         : data_(p.data_)
     {
         p.data_ = nullptr;
