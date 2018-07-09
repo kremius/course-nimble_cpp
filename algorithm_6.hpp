@@ -13,18 +13,9 @@ struct  naive_complex {
     ~naive_complex(){}
 };
 
-
-struct  optim_complex { // TASK: Improve
+struct  optim_complex {
     int real, im;
-
-    optim_complex() {}
-    optim_complex(const optim_complex& nc)
-        : real(nc.real)
-        , im(nc.im)
-    {}
-    ~optim_complex() {}
 };
-
 
 //////////////////////////// DETAIL ////////////////////////////
 
@@ -43,6 +34,6 @@ static void copy_speed(benchmark::State& state, const T& /*data_type*/) {
     }
 }
 
-BENCH(copy_speed, naive_copy_speed, naive_complex{})->Range(8, 8 << 10);
-BENCH(copy_speed, optim_copy_speed, optim_complex{})->Range(8, 8 << 10);
+BENCH(copy_speed, naive_copy_speed, naive_complex{})->Range(8, 8 << 12);
+BENCH(copy_speed, optim_copy_speed, optim_complex{})->Range(8, 8 << 12);
 
