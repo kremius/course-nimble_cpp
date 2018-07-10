@@ -55,12 +55,11 @@ static vs_type generate_optim(std::size_t elements_count) {
     vs_type v;
 
     for (unsigned i = 0; i < elements_count; ++i) {
-        std::string s {s_base};
+        v.emplace_back(s_base);
+        auto& s = v.back();
         s += static_cast<char>(elements_count % 256);
         elements_count >>= 1;
         s += static_cast<char>(elements_count % 256);
-
-        v.push_back(s);
     }
 
     return v;
@@ -68,16 +67,14 @@ static vs_type generate_optim(std::size_t elements_count) {
 
 static vs_type filter_optim(vs_type generated) {
     vs_type dest;
-    dest.resize(generated.size());
+    dest.reserve(generated.size());
 
     const auto it = std::copy_if(
-        generated.begin(),
-        generated.end(),
-        dest.begin(),
+        std::make_move_iterator(generated.begin()),
+        std::make_move_iterator(generated.end()),
+        std::back_inserter(dest),
         [](const std::string& v) { return std::hash<std::string>{}(v) & 1; }
     );
-
-    dest.erase(it, dest.end());
 
     return dest;
 }
@@ -101,5 +98,5 @@ static void mesure_generate_and_filter(benchmark::State& state, Filter filter, G
     }
 }
 
-BENCH(mesure_generate_and_filter, generate_and_filter_naive, &filter_naive, &generate_naive)->Range(8, 8<<10);
-BENCH(mesure_generate_and_filter, generate_and_filter_optim, &filter_optim, &generate_optim)->Range(8, 8<<10);
+BENCH(mesure_generate_and_filter, generate_and_filter_naive, &filter_naive, &generate_naive)->Range(8, 8<<12);
+BENCH(mesure_generate_and_filter, generate_and_filter_optim, &filter_optim, &generate_optim)->Range(8, 8<<12);
