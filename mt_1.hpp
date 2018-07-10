@@ -30,32 +30,26 @@ struct wrong_shared_var_t { // Do not modify!
 } wrong_shared_var;
 
 struct super_shared_var_t {
-    std::mutex  m;
-    int variable{0};
+    std::atomic<int> variable{0};
 
     int inc() {
-        std::lock_guard<std::mutex> l{m};
         return ++variable;
     }
 
     int dec() {
-        std::lock_guard<std::mutex> l{m};
         return --variable;
     }
 } super_shared_var;
 
 struct ultim_shared_var_t {
-    std::mutex  m;
-    int variable{0};
+    std::atomic<int> variable{0};
 
     int inc() {
-        std::lock_guard<std::mutex> l{m};
-        return ++variable;
+        return variable.fetch_add(1, std::memory_order_relaxed);
     }
 
     int dec() {
-        std::lock_guard<std::mutex> l{m};
-        return --variable;
+        return variable.fetch_sub(1, std::memory_order_relaxed);
     }
 } ultim_shared_var;
 
